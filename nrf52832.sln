@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloworld", "helloworld\helloworld.vcxproj", "{E3FD7E8F-23AC-488F-96BA-AFC0DDC72691}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ble_helloworld", "ble_helloworld\ble_helloworld.vcxproj", "{C8013B7C-B16D-474D-94CC-723151AF7EA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|VisualGDB = Debug|VisualGDB
+		Release|VisualGDB = Release|VisualGDB
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3FD7E8F-23AC-488F-96BA-AFC0DDC72691}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{E3FD7E8F-23AC-488F-96BA-AFC0DDC72691}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{E3FD7E8F-23AC-488F-96BA-AFC0DDC72691}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{E3FD7E8F-23AC-488F-96BA-AFC0DDC72691}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{C8013B7C-B16D-474D-94CC-723151AF7EA1}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{C8013B7C-B16D-474D-94CC-723151AF7EA1}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{C8013B7C-B16D-474D-94CC-723151AF7EA1}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{C8013B7C-B16D-474D-94CC-723151AF7EA1}.Release|VisualGDB.Build.0 = Release|VisualGDB
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0201A569-ECB0-47FA-8D30-86E449A5A70B}
+	EndGlobalSection
+EndGlobal
