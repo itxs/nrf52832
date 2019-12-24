@@ -356,7 +356,7 @@ static void sensor_contact_detected_timeout_handler(void * p_context)
 
     UNUSED_PARAMETER(p_context);
 
-    sensor_contact_detected = !sensor_contact_detected;
+    sensor_contact_detected = nrf_gpio_pin_input_get(BUTTON_3);
     ble_hrs_sensor_contact_detected_update(&m_hrs, sensor_contact_detected);
 }
 
@@ -816,6 +816,7 @@ static void ble_stack_init(void)
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
 }
 
+uint8_t ledState = 0;
 
 /**@brief Function for handling events from the BSP module.
  *
@@ -850,7 +851,15 @@ void bsp_event_handler(bsp_event_t event)
                 }
             }
             break;
-
+        case BSP_EVENT_KEY_3:
+	        {
+		        if (m_cus.conn_handle != BLE_CONN_HANDLE_INVALID)
+		        {
+		            ledState ^= 1;
+		            APP_ERROR_CHECK(ble_cus_custom_value_update(&m_cus, ledState));
+			        nrf_gpio_pin_write(BSP_LED_3, !ledState);
+		        }
+	        }
         default:
             break;
     }

@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/helloworld/VisualGDB/VisualGDBCache
+/ble_helloworld/VisualGDB/VisualGDBCache

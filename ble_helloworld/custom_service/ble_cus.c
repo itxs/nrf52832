@@ -6,6 +6,8 @@
 #include "boards.h"
 #include "nrf_log.h"
 
+extern uint8_t ledState;
+
 /**@brief Function for handling the Connect event.
  *
  * @param[in]   p_cus       Custom Service structure.
@@ -51,7 +53,8 @@ static void on_write(ble_cus_t * p_cus, ble_evt_t const * p_ble_evt)
     // Custom Value Characteristic Written to.
     if (p_evt_write->handle == p_cus->custom_value_handles.value_handle)
     {
-	    nrf_gpio_pin_write(20, *p_evt_write->data);
+	    nrf_gpio_pin_write(20, !(*p_evt_write->data));
+	    ledState = *p_evt_write->data;
     }
 
     // Check if the Custom value CCCD is written to and that the value is the appropriate length, i.e 2 bytes.
