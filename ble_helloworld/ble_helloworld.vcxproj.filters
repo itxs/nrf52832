@@ -25,6 +25,9 @@
     <Filter Include="VisualGDB settings">
       <UniqueIdentifier>{3d70daaf-d7aa-4f4b-960e-4d6315fc7668}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\BLE custom service">
+      <UniqueIdentifier>{3dc5fddc-a005-4910-8bea-ded3bb6380fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -426,5 +429,8 @@
     <None Include="nrf5x.xml">
       <Filter>VisualGDB settings</Filter>
     </None>
+    <ClCompile Include="custom_service\ble_cus.c">
+      <Filter>Source files\BLE custom service</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

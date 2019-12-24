@@ -65,6 +65,7 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="custom_service\ble_cus.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="$(BSP_ROOT)\nRF5x\components\libraries\bsp\bsp.c" />
     <ClCompile Include="$(BSP_ROOT)\nRF5x\components\libraries\bsp\bsp_btn_ble.c" />

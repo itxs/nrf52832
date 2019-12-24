@@ -61,6 +61,7 @@
 #include "ble_bas.h"
 #include "ble_hrs.h"
 #include "ble_dis.h"
+#include "custom_service/ble_cus.h"
 #include "ble_conn_params.h"
 #include "sensorsim.h"
 #include "nrf_sdh.h"
@@ -135,6 +136,7 @@ BLE_HRS_DEF(m_hrs);                                                 /**< Heart r
 BLE_BAS_DEF(m_bas);                                                 /**< Structure used to identify the battery service. */
 NRF_BLE_GATT_DEF(m_gatt);                                           /**< GATT module instance. */
 NRF_BLE_QWR_DEF(m_qwr);                                             /**< Context for the Queued Write module.*/
+BLE_CUS_DEF(m_cus);
 BLE_ADVERTISING_DEF(m_advertising);                                 /**< Advertising module instance. */
 APP_TIMER_DEF(m_battery_timer_id);                                  /**< Battery timer. */
 APP_TIMER_DEF(m_heart_rate_timer_id);                               /**< Heart rate measurement timer. */
@@ -155,7 +157,8 @@ static ble_uuid_t m_adv_uuids[] =                                   /**< Univers
 {
     {BLE_UUID_HEART_RATE_SERVICE,           BLE_UUID_TYPE_BLE},
     {BLE_UUID_BATTERY_SERVICE,              BLE_UUID_TYPE_BLE},
-    {BLE_UUID_DEVICE_INFORMATION_SERVICE,   BLE_UUID_TYPE_BLE}
+    {BLE_UUID_DEVICE_INFORMATION_SERVICE,   BLE_UUID_TYPE_BLE},
+	{CUSTOM_SERVICE_UUID,                   BLE_UUID_TYPE_VENDOR_BEGIN }
 };
 
 
@@ -462,6 +465,26 @@ static void nrf_qwr_error_handler(uint32_t nrf_error)
     APP_ERROR_HANDLER(nrf_error);
 }
 
+static void on_cus_evt(ble_cus_t* p_cus_service, ble_cus_evt_t* p_evt)
+{
+	switch (p_evt->evt_type)
+	{
+	case BLE_CUS_EVT_NOTIFICATION_ENABLED:
+		break;
+
+	case BLE_CUS_EVT_NOTIFICATION_DISABLED:
+		break;
+
+	case BLE_CUS_EVT_CONNECTED:
+		break;
+
+	case BLE_CUS_EVT_DISCONNECTED:
+		break;
+		
+	default:
+		break;
+	}
+}
 
 /**@brief Function for initializing services that will be used by the application.
  *
@@ -473,6 +496,7 @@ static void services_init(void)
     ble_hrs_init_t     hrs_init;
     ble_bas_init_t     bas_init;
     ble_dis_init_t     dis_init;
+	ble_cus_init_t     cus_init;
     nrf_ble_qwr_init_t qwr_init = {0};
     uint8_t            body_sensor_location;
 
@@ -523,6 +547,13 @@ static void services_init(void)
 
     err_code = ble_dis_init(&dis_init);
     APP_ERROR_CHECK(err_code);
+	
+	memset(&cus_init, 0, sizeof(cus_init));
+	cus_init.evt_handler = on_cus_evt;
+	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.cccd_write_perm);
+	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.read_perm);
+	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.write_perm);
+	APP_ERROR_CHECK(ble_cus_init(&m_cus, &cus_init));
 }
 
 
@@ -870,9 +901,9 @@ static void advertising_init(void)
     memset(&init, 0, sizeof(init));
 
     init.advdata.name_type               = BLE_ADVDATA_FULL_NAME;
-    init.advdata.include_appearance      = true;
     init.advdata.flags                   = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
-    init.advdata.uuids_complete.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+	init.advdata.le_role = BLE_ADVDATA_ROLE_ONLY_PERIPH;
+    init.advdata.uuids_complete.uuid_cnt = 0;
     init.advdata.uuids_complete.p_uuids  = m_adv_uuids;
 
     init.config.ble_adv_fast_enabled  = true;
@@ -960,8 +991,8 @@ int main(void)
     ble_stack_init();
     gap_params_init();
     gatt_init();
-    advertising_init();
     services_init();
+    advertising_init();
     sensor_simulator_init();
     conn_params_init();
     peer_manager_init();
